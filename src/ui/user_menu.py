@@ -1,10 +1,11 @@
 from src.services.user_service import UserService
-from src.ui.customer_menu import CustomerMenu
-from src.ui.admin_menu import AdminMenu
+from src.ui.MenuFactory import MenuFactory
+
 
 class UserMenu:
-    def __init__(self, user_service=None):
+    def __init__(self, user_service=None, menu_factory=None):
         self.user_service = user_service if user_service else UserService()
+        self.menu_factory = menu_factory if menu_factory else MenuFactory()
 
 
     def register(self):
@@ -28,11 +29,7 @@ class UserMenu:
         role = self.user_service.login_user(username, password)
         if role:
             print(f"Welcome back, {username}! You are logged in as a {role}.")
-            if role.lower() == 'customer':
-                customer_menu = CustomerMenu()
-                customer_menu.display()
-            elif role.lower() == 'admin':
-                admin_menu = AdminMenu()
-                admin_menu.display()
+            menu = self.menu_factory.get_menu(role)  # Use factory to get the menu
+            menu.display()
         else:
             print("Login failed. Invalid username or password.")
