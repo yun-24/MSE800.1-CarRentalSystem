@@ -60,7 +60,8 @@ class CustomerMenu:
         rentals = self.rental_service.view_rentals(user_id)
         for rental in rentals:
             print(f"Rental ID: {rental['rental_id']}, Car ID: {rental['car_id']}, User ID: {rental['user_id']}, "
-                  f"Start Date: {rental['start_date']}, End Date: {rental['end_date']}, Total Fee: ${rental['total_fee']}")
+                  f"Start Date: {rental['start_date']}, End Date: {rental['end_date']}, Total Fee: ${rental['total_fee']}, "
+                  f"Status: {rental['status']}")
 
     def cancel_rental(self):
         rental_id = input('Enter Rental ID: ')

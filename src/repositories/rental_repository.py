@@ -62,8 +62,18 @@ class RentalRepository:
 
     def approve_rental(self, rental_id):
         with self.connection.cursor() as cursor:
+            # Step 1: Update rental status to 'approved'
             sql = "UPDATE rentals SET status='approved' WHERE rental_id=%s"
             cursor.execute(sql, (rental_id,))
+
+            # Step 2: Get the car_id for the approved rental
+            sql_get_car_id = "SELECT car_id FROM rentals WHERE rental_id=%s"
+            cursor.execute(sql_get_car_id, (rental_id,))
+            car_id = cursor.fetchone()['car_id']
+
+            # Step 3: Update car availability to FALSE
+            sql_car = "UPDATE cars SET available_now=FALSE WHERE car_id=%s"
+            cursor.execute(sql_car, (car_id,))
             self.connection.commit()
 
     def reject_rental(self, rental_id):
