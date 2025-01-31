@@ -23,7 +23,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build executable (Windows)
-        run: pyinstaller --onefile --name car_rental_cli src/main.py
+        run: pyinstaller --onefile --name car_rental_cli main.py
 
       - name: Zip Windows build
         run: Compress-Archive -Path dist\* -DestinationPath car_rental_windows.zip
@@ -52,7 +52,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Build executable (macOS)
-        run: pyinstaller --onefile --name car_rental_cli src/main.py
+        run: pyinstaller --onefile --name car_rental_cli main.py
 
       - name: Zip macOS build
         run: zip -r car_rental_mac.zip dist/
