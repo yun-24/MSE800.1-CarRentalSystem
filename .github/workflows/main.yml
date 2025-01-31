@@ -1,6 +1,64 @@
-steps:
-- uses: actions/checkout@v4
-- uses: actions/setup-python@v5
-  with:
-    python-version: '3.10' 
-- run: python main.py
+name: Release Build
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements.txt
+
+      - name: Build executable (Windows)
+        run: pyinstaller --onefile --name car_rental_cli src/main.py
+
+      - name: Zip Windows build
+        run: Compress-Archive -Path dist\* -DestinationPath car_rental_windows.zip
+
+      - name: Upload Windows artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: car-rental-windows
+          path: car_rental_windows.zip
+
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          pip install -r requirements.txt
+
+      - name: Build executable (macOS)
+        run: pyinstaller --onefile --name car_rental_cli src/main.py
+
+      - name: Zip macOS build
+        run: zip -r car_rental_mac.zip dist/
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: car-rental-mac
+          path: car_rental_mac.zip
