@@ -1,4 +1,12 @@
-def ExceptionHandler(func):
+def ExceptionHandler(cls):
+    """Class-level decorator to handle exceptions for all methods."""
+    for name, method in cls.__dict__.items():
+        if callable(method):  # Check if it's a method
+            setattr(cls, name, _handle_exceptions(method))
+    return cls
+
+def _handle_exceptions(func):
+    """Wrap a method with exception handling and logging."""
     def wrapper(*args, **kwargs):
         try:
             return func(*args, **kwargs)

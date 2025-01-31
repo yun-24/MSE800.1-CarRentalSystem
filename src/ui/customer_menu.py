@@ -3,9 +3,10 @@ from src.services.rental_service import RentalService
 from datetime import datetime
 
 from src.ui.MenuABC import MenuABC
+from src.utils.ExceptionHandler import ExceptionHandler
 from src.utils.Session import Session
 
-
+@ExceptionHandler
 class CustomerMenu(MenuABC):
     def __init__(self, car_service=None, rental_service=None):
         self.car_service = car_service if car_service else CarService()

@@ -3,14 +3,13 @@ from src.ui.MenuFactory import MenuFactory
 from src.utils.ExceptionHandler import ExceptionHandler
 from src.utils.Session import Session
 
-
+@ExceptionHandler
 class UserMenu:
     def __init__(self, user_service=None, menu_factory=None):
         self.user_service = user_service if user_service else UserService()
         self.menu_factory = menu_factory if menu_factory else MenuFactory()
 
 
-    @ExceptionHandler
     def register(self):
         username = input('Enter username: ')
         password = input('Enter password: ')

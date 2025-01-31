@@ -1,8 +1,10 @@
 from src.services.car_service import CarService
 from src.services.rental_service import RentalService
 from src.ui.MenuABC import MenuABC
+from src.utils.ExceptionHandler import ExceptionHandler
 
 
+@ExceptionHandler
 class AdminMenu(MenuABC):
     def __init__(self, car_service=None, rental_service=None):
         self.car_service = car_service if car_service else CarService()
