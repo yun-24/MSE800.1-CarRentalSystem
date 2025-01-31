@@ -1,5 +1,8 @@
+import sys
+
 import pymysql
 import yaml
+import os
 
 class DatabaseConnection:
     _instance = None
@@ -12,6 +15,12 @@ class DatabaseConnection:
 
     def _initialize_connection(self):
         # Read the configuration file
+        # config_path = os.path.abspath('config.yaml')
+        # print(f"Attempting to open config file at: {config_path}")
+        config_file = 'config.yaml'
+        if not os.path.isfile(config_file):
+            print(f"Error: Configuration file '{config_file}' not found.")
+            sys.exit(1)  # Exit the program with an error code
         with open('config.yaml', 'r') as file:
             config = yaml.safe_load(file)
 
