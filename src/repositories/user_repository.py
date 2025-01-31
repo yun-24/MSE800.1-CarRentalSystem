@@ -12,7 +12,7 @@ class UserRepository:
 
     def find_user(self, username, password):
         with self.connection.cursor() as cursor:
-            sql = "SELECT username, role FROM users WHERE username=%s AND password=%s"
+            sql = "SELECT user_id, username, role FROM users WHERE username=%s AND password=%s"
             cursor.execute(sql, (username, password))
             return cursor.fetchone()
 

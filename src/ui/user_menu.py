@@ -1,5 +1,6 @@
 from src.services.user_service import UserService
 from src.ui.MenuFactory import MenuFactory
+from src.utils.Session import Session
 
 
 class UserMenu:
@@ -26,8 +27,13 @@ class UserMenu:
         username = input('Enter username: ')
         password = input('Enter password: ')
 
-        role = self.user_service.login_user(username, password)
-        if role:
+        user = self.user_service.login_user(username, password)
+        if user:
+            role = user['role']
+            # Store user info in session
+            Session.login(user['user_id'], role)  # Store user in session
+
+
             print(f"Welcome back, {username}! You are logged in as a {role}.")
             menu = self.menu_factory.get_menu(role)  # Use factory to get the menu
             menu.display()

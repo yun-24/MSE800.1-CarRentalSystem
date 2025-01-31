@@ -2,10 +2,15 @@ from src.services.car_service import CarService
 from src.services.rental_service import RentalService
 from datetime import datetime
 
+from src.utils.Session import Session
+
+
 class CustomerMenu:
     def __init__(self, car_service=None, rental_service=None):
         self.car_service = car_service if car_service else CarService()
         self.rental_service = rental_service if rental_service else RentalService()
+        # Retrieve user_id from session
+        self.user_id = Session.get_current_user()['user_id']
 
     def display(self):
         while True:
@@ -26,6 +31,7 @@ class CustomerMenu:
             elif choice == '4':
                 self.cancel_rental()
             elif choice == '5':
+                Session.logout()  # Clear session
                 break
             else:
                 print("Invalid choice. Please try again.")
@@ -39,7 +45,7 @@ class CustomerMenu:
 
     def book_rental(self):
         car_id = input('Enter Car ID: ')
-        user_id = input('Enter User ID: ')
+        user_id = self.user_id
         start_date = datetime.strptime(input('Enter Start Date (YYYY-MM-DD): '), '%Y-%m-%d')
         end_date = datetime.strptime(input('Enter End Date (YYYY-MM-DD): '), '%Y-%m-%d')
 
@@ -50,7 +56,7 @@ class CustomerMenu:
             print("Booking failed. Please try again.")
 
     def view_rentals(self):
-        user_id = input('Enter User ID: ')
+        user_id = self.user_id
         rentals = self.rental_service.view_rentals(user_id)
         for rental in rentals:
             print(f"Rental ID: {rental['rental_id']}, Car ID: {rental['car_id']}, User ID: {rental['user_id']}, "

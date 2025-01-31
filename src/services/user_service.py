@@ -22,7 +22,7 @@ class UserService:
         result = self.user_repository.find_user(username, password)
         # print(result)
         if result:
-            return result['role']
+            return result
         return None
 
     def get_user_by_username(self, username):
