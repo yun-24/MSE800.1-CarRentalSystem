@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -29,7 +29,7 @@ jobs:
         run: Compress-Archive -Path dist\* -DestinationPath car_rental_windows.zip
 
       - name: Upload Windows artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: car-rental-windows
           path: car_rental_windows.zip
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -58,7 +58,7 @@ jobs:
         run: zip -r car_rental_mac.zip dist/
 
       - name: Upload macOS artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: car-rental-mac
           path: car_rental_mac.zip
