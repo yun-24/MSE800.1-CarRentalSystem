@@ -35,7 +35,7 @@ jobs:
           path: car_rental_windows.zip
 
   build-mac:
-    runs-on: macos-10.14
+    runs-on: macos-10.15
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
