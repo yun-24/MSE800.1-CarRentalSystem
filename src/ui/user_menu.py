@@ -1,5 +1,6 @@
 from src.services.user_service import UserService
 from src.ui.MenuFactory import MenuFactory
+from src.utils.ExceptionHandler import ExceptionHandler
 from src.utils.Session import Session
 
 
@@ -9,18 +10,14 @@ class UserMenu:
         self.menu_factory = menu_factory if menu_factory else MenuFactory()
 
 
+    @ExceptionHandler
     def register(self):
         username = input('Enter username: ')
         password = input('Enter password: ')
         role = input('Enter role (Customer/Admin): ')
 
-        try:
-            self.user_service.register_user(username, password, role)
-            print(f"User '{username}' registered successfully as a {role}.")
-        except ValueError as e:
-            print(f"Error: {e}")
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+        self.user_service.register_user(username, password, role)
+        print(f"User '{username}' registered successfully as a {role}.")
 
 
     def login(self):
