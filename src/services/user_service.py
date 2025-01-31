@@ -7,13 +7,16 @@ class UserService:
 
 
     def register_user(self, username, password, role):
-        # Check if user already exists
+        # Validate inputs
+        # check input, if role is valid
+        if not username or not password or role.lower() not in ['customer', 'admin']:
+            raise ValueError("Invalid user details.")
+        # check if username is unique
         if self.user_repository.find_user_by_username(username):
-            return False
+            raise ValueError("Username already exists")
 
         # Proceed with registration
         self.user_repository.add_user(username, password, role)
-        return True
 
     def login_user(self, username, password):
         result = self.user_repository.find_user(username, password)
