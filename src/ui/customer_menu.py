@@ -37,7 +37,10 @@ class CustomerMenu:
                 print("Invalid choice. Please try again.")
 
     def view_cars(self):
-        cars = self.car_service.get_all_cars()
+        # Fetch available cars
+        cars = self.car_service.get_available_cars()
+
+        print("\nAvailable Cars:")
         for car in cars:
             print(f"Car ID: {car['car_id']}, Make: {car['make']}, Model: {car['model']}, Year: {car['year']}, "
                   f"Mileage: {car['mileage']}, Available Now: {car['available_now']}, "

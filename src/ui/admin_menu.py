@@ -13,7 +13,8 @@ class AdminMenu:
             print("2. Update Car")
             print("3. Delete Car")
             print("4. Manage Rentals")
-            print("5. Logout")
+            print("5. View Cars")
+            print("6. Logout")
             choice = input("Enter choice: ")
 
             if choice == '1':
@@ -25,12 +26,13 @@ class AdminMenu:
             elif choice == '4':
                 self.manage_rentals()
             elif choice == '5':
+                self.view_cars()
+            elif choice == '6':
                 break
             else:
                 print("Invalid choice. Please try again.")
 
     def add_car(self):
-        car_id = input('Enter Car ID: ')
         make = input('Enter Make: ')
         model = input('Enter Model: ')
         year = int(input('Enter Year: '))
@@ -39,7 +41,7 @@ class AdminMenu:
         min_rent_period = int(input('Enter Minimum Rent Period: '))
         max_rent_period = int(input('Enter Maximum Rent Period: '))
 
-        self.car_service.add_car(car_id, make, model, year, mileage, available_now, min_rent_period, max_rent_period)
+        self.car_service.add_car(make, model, year, mileage, available_now, min_rent_period, max_rent_period)
         print('Car added successfully!')
 
     def update_car(self):
@@ -64,7 +66,9 @@ class AdminMenu:
     def manage_rentals(self):
         rentals = self.rental_service.manage_rentals()
         for rental in rentals:
-            print(f'Rental ID: {rental["rental_id"]}, Car ID: {rental["car_id"]}, User ID: {rental["user_id"]}, Start Date: {rental["start_date"]}, End Date: {rental["end_date"]}, Total Fee: {rental["total_fee"]}')
+            print(f'Rental ID: {rental["rental_id"]}, Car ID: {rental["car_id"]}, User ID: {rental["user_id"]}, '
+                  f'Start Date: {rental["start_date"]}, End Date: {rental["end_date"]}, Total Fee: {rental["total_fee"]}, '
+                  f"Status: {rental['status']}")
 
         action = input('Enter action (approve/reject): ')
         rental_id = input('Enter Rental ID to approve/reject: ')
@@ -77,3 +81,19 @@ class AdminMenu:
             print('Rental request rejected.')
         else:
             print('Invalid action. Please try again.')
+
+    def view_cars(self):
+        cars = self.car_service.get_all_cars()  # Fetch all cars
+        if not cars:
+            print("No cars.")
+            return
+
+        print("\nAll Cars:")
+        for car in cars:
+            availability = "Available" if car['available_now'] else "Unavailable"
+            print(
+                f"Car ID: {car['car_id']}, Make: {car['make']}, Model: {car['model']}, "
+                f"Year: {car['year']}, Mileage: {car['mileage']}, "
+                f"Min Rent Period: {car['min_rent_period']}, Max Rent Period: {car['max_rent_period']}, "
+                f"Status: {availability},"
+            )

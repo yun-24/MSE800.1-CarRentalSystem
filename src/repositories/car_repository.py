@@ -5,10 +5,10 @@ class CarRepository:
     def __init__(self, connection=None):
         self.connection = connection if connection else DatabaseConnection().get_connection()
 
-    def add_car(self, car_id, make, model, year, mileage, available_now, min_rent_period, max_rent_period):
+    def add_car(self, make, model, year, mileage, available_now, min_rent_period, max_rent_period):
         with self.connection.cursor() as cursor:
-            sql = "INSERT INTO cars (car_id, make, model, year, mileage, available_now, min_rent_period, max_rent_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, (car_id, make, model, year, mileage, available_now, min_rent_period, max_rent_period))
+            sql = "INSERT INTO cars (make, model, year, mileage, available_now, min_rent_period, max_rent_period) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            cursor.execute(sql, (make, model, year, mileage, available_now, min_rent_period, max_rent_period))
             self.connection.commit()
 
     def update_car(self, car_id, make, model, year, mileage, available_now, min_rent_period, max_rent_period):
@@ -41,3 +41,10 @@ class CarRepository:
                     'max_rent_period': result['max_rent_period']
                 })
             return cars
+
+    def get_available_cars(self):
+        with self.connection.cursor() as cursor:
+            sql = "SELECT * FROM cars WHERE available_now = TRUE"
+            cursor.execute(sql)
+            results = cursor.fetchall()
+            return [dict(result) for result in results]
