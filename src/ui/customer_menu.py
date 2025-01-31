@@ -2,10 +2,11 @@ from src.services.car_service import CarService
 from src.services.rental_service import RentalService
 from datetime import datetime
 
+from src.ui.MenuABC import MenuABC
 from src.utils.Session import Session
 
 
-class CustomerMenu:
+class CustomerMenu(MenuABC):
     def __init__(self, car_service=None, rental_service=None):
         self.car_service = car_service if car_service else CarService()
         self.rental_service = rental_service if rental_service else RentalService()
